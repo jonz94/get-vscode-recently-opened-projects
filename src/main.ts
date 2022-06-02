@@ -15,6 +15,9 @@ function getDatabasePath() {
     case 'darwin':
       return `${homedir()}/Library/Application Support/Code/User/globalStorage/state.vscdb`
 
+    case 'win32':
+      return `${homedir()}/AppData/Roaming/Code/User/globalStorage/state.vscdb`
+
     default:
       console.error(`Error: unsupported platform "${platform()}"`)
       exit(1)
