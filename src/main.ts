@@ -13,7 +13,7 @@ function getDatabasePath() {
       return `${homedir()}/.config/Code/User/globalStorage/state.vscdb`
 
     default:
-      console.error('unsupported platform')
+      console.error(`Error: unsupported platform "${platform()}"`)
       exit(1)
   }
 }
