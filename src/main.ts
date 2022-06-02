@@ -39,7 +39,9 @@ async function main() {
   const queryResult = await queryData(databasePath)
 
   console.log(
-    queryResult.length ? JSON.parse(queryResult[0].values[0]).entries : [],
+    queryResult.length
+      ? JSON.stringify(JSON.parse(queryResult[0].values[0]).entries, null, 2)
+      : [],
   )
 }
 
