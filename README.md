@@ -8,19 +8,19 @@ development
 
 ### setup
 
-```shell
+```
 pnpm i
 ```
 
 ### run
 
-```shell
+```
 pnpm run exec
 ```
 
 ### build
 
-```shell
+```
 pnpm build
 ```
 
