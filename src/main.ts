@@ -1,5 +1,7 @@
+import { spawnSync } from 'child_process'
 import { readFile } from 'fs/promises'
-import { homedir, platform } from 'os'
+import { readFileSync } from 'fs'
+import { homedir, platform, release } from 'os'
 import { exit } from 'process'
 import initSqlJs from 'sql.js'
 
@@ -7,7 +9,52 @@ type QueryResult = {
   values: string[]
 }[]
 
+/**
+ * credit: https://github.com/sindresorhus/is-wsl/blob/8b20f129277e996027ab5714cb246d2f8f889ebb/index.js
+ */
+function isWsl() {
+  if (process.platform !== 'linux') {
+    return false
+  }
+
+  if (release().toLowerCase().includes('microsoft')) {
+    return true
+  }
+
+  try {
+    return readFileSync('/proc/version', 'utf8')
+      .toLowerCase()
+      .includes('microsoft')
+  } catch {
+    return false
+  }
+}
+
+function getWindowsAppDataDirViaPowershell() {
+  const { stdout } = spawnSync('powershell.exe', [
+    '-NoProfile',
+    '-NoLogo',
+    '-Command',
+    'echo $Env:APPDATA',
+  ])
+
+  const appDataDir = stdout
+    .toString()
+    .replace(/\r\n/g, '')
+    .replace(/\n/g, '')
+    .replace(/\\/g, '/')
+    .replace(/^C:/, '/mnt/c')
+
+  return appDataDir
+}
+
 function getDatabasePath() {
+  if (isWsl()) {
+    const appDataDir = getWindowsAppDataDirViaPowershell()
+
+    return `${appDataDir}/Code/User/globalStorage/state.vscdb`
+  }
+
   switch (platform()) {
     case 'linux':
       return `${homedir()}/.config/Code/User/globalStorage/state.vscdb`
