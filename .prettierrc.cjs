@@ -9,4 +9,13 @@ module.exports = {
     require('prettier-plugin-packagejson'),
     require('prettier-plugin-organize-imports'),
   ],
+
+  overrides: [
+    {
+      files: '**/*.json',
+      options: {
+        printWidth: 1,
+      },
+    },
+  ],
 }
