@@ -13,7 +13,8 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "exec": "npm run build && node ./dist/main.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "release": "commit-and-tag-version"
   },
   "dependencies": {
     "sql.js": "^1.7.0"
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/prettier": "^2.6.3",
     "@types/sql.js": "^1.4.3",
+    "commit-and-tag-version": "^10.0.1",
     "prettier": "^2.6.2",
     "prettier-plugin-organize-imports": "^2.3.4",
     "prettier-plugin-packagejson": "^2.2.18",
