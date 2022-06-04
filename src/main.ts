@@ -1,6 +1,6 @@
 import { spawnSync } from 'child_process'
-import { readFile } from 'fs/promises'
 import { readFileSync } from 'fs'
+import { readFile } from 'fs/promises'
 import { homedir, platform, release } from 'os'
 import { exit } from 'process'
 import initSqlJs from 'sql.js'
