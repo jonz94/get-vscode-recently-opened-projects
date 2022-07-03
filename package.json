@@ -1,6 +1,6 @@
 {
   "name": "@jonz94/get-vscode-recently-opened-projects",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Get vscode's recently opened projects or files",
   "license": "Unlicense",
   "author": {

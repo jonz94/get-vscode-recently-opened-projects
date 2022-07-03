@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0](https://github.com/jonz94/get-vscode-recently-opened-projects/compare/v0.1.0...v0.2.0) (2022-07-03)
+
+### Features
+
+- show project name as label ([0e0c8a4](https://github.com/jonz94/get-vscode-recently-opened-projects/commit/0e0c8a41a9600c48148103b334945e85dc18ab57))
+
 ## 0.1.0 (2022-06-04)
 
 ### Features
