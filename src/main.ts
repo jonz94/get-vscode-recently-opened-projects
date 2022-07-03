@@ -4,10 +4,18 @@ import { readFile } from 'fs/promises'
 import { homedir, platform, release } from 'os'
 import { exit } from 'process'
 import initSqlJs from 'sql.js'
-
-type QueryResult = {
-  values: string[]
-}[]
+import {
+  EntryLike,
+  EntryLikeWithLabel,
+  FileEntry,
+  FileEntryWithLabel,
+  FolderEntry,
+  FolderEntryWithLabel,
+  QueryResult,
+  RemoteEntry,
+  WorkspaceEntry,
+  WorkspaceEntryWithLabel,
+} from './types'
 
 /**
  * credit: https://github.com/sindresorhus/is-wsl/blob/8b20f129277e996027ab5714cb246d2f8f889ebb/index.js
@@ -88,11 +96,38 @@ async function main() {
 
   const queryResult = await queryData(databasePath)
 
-  console.log(
-    queryResult.length
-      ? JSON.stringify(JSON.parse(queryResult[0].values[0]).entries, null, 2)
-      : [],
-  )
+  if (!queryResult?.length) {
+    console.log([])
+    return
+  }
+
+  const entries = JSON.parse(queryResult[0].values[0]).entries as EntryLike[]
+
+  const entriesWithLabel = entries.map((entry) => {
+    if ((entry as RemoteEntry)?.label) {
+      return entry as EntryLikeWithLabel
+    } else if ((entry as WorkspaceEntry)?.workspace?.configPath) {
+      ;(entry as WorkspaceEntryWithLabel).label = (
+        (entry as WorkspaceEntry).workspace.configPath.split('/').pop() ?? ''
+      ).replace('.code-workspace', '')
+
+      return entry as WorkspaceEntryWithLabel
+    } else if ((entry as FileEntry)?.fileUri) {
+      ;(entry as FileEntryWithLabel).label = decodeURIComponent(
+        (entry as FileEntry).fileUri.split('/').pop() ?? '',
+      )
+
+      return entry as FileEntryWithLabel
+    } else if (entry as FolderEntry) {
+      ;(entry as FolderEntryWithLabel).label = decodeURIComponent(
+        (entry as FolderEntry).folderUri.split('/').pop() ?? '',
+      )
+
+      return entry as FolderEntryWithLabel
+    }
+  })
+
+  console.log(JSON.stringify(entriesWithLabel, null, 2))
 }
 
 main()
