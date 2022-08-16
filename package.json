@@ -2,7 +2,7 @@
   "name": "@jonz94/get-vscode-recently-opened-projects",
   "version": "0.2.0",
   "description": "Get vscode's recently opened projects or files",
-  "license": "Unlicense",
+  "license": "0BSD",
   "author": {
     "name": "jonz94",
     "email": "jody16888@gmail.com"
